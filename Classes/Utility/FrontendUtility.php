@@ -3,6 +3,7 @@ namespace In2code\Femanager\Utility;
 
 use In2code\Femanager\Domain\Model\User;
 use In2code\Femanager\Domain\Model\UserGroup;
+use In2code\Femanager\Domain\Model\UserInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -45,7 +46,7 @@ class FrontendUtility extends AbstractUtility
      */
     public static function getCurrentPid()
     {
-        return (int) self::getTypoScriptFrontendController()->id;
+        return (int)self::getTypoScriptFrontendController()->id;
     }
 
     /**
@@ -56,7 +57,7 @@ class FrontendUtility extends AbstractUtility
     public static function getFrontendLanguageUid()
     {
         if (!empty(self::getTypoScriptFrontendController()->tmpl->setup['config.']['sys_language_uid'])) {
-            return (int) self::getTypoScriptFrontendController()->tmpl->setup['config.']['sys_language_uid'];
+            return (int)self::getTypoScriptFrontendController()->tmpl->setup['config.']['sys_language_uid'];
         }
         return 0;
     }
@@ -64,13 +65,13 @@ class FrontendUtility extends AbstractUtility
     /**
      * Set object properties from forceValues in TypoScript
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param array $settings
      * @return User $object
      */
-    public static function forceValues(User $user, array $settings)
+    public static function forceValues(UserInterface $user, array $settings)
     {
-        foreach ((array) $settings as $field => $config) {
+        foreach ($settings as $field => $config) {
             $config = null;
             if (stristr($field, '.')) {
                 continue;

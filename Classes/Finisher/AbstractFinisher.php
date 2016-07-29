@@ -2,6 +2,7 @@
 namespace In2code\Femanager\Finisher;
 
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /***************************************************************
@@ -28,17 +29,14 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  ***************************************************************/
 
 /**
- * AbstractFinisher
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/lgpl.html
- *          GNU Lesser General Public License, version 3 or later
+ * Class AbstractFinisher
+ * @package In2code\Femanager\Finisher
  */
 abstract class AbstractFinisher implements FinisherInterface
 {
 
     /**
-     * @var User
+     * @var UserInterface
      */
     protected $user;
 
@@ -69,7 +67,7 @@ abstract class AbstractFinisher implements FinisherInterface
     protected $contentObject;
 
     /**
-     * @return User
+     * @return UserInterface
      */
     public function getUser()
     {
@@ -77,7 +75,7 @@ abstract class AbstractFinisher implements FinisherInterface
     }
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      * @return AbstractFinisher
      */
     public function setUser($user)
@@ -148,14 +146,14 @@ abstract class AbstractFinisher implements FinisherInterface
     }
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      * @param array $configuration
      * @param array $settings
      * @param ContentObjectRenderer $contentObject
      * @param string $actionMethodName
      */
     public function __construct(
-        User $user,
+        UserInterface $user,
         array $configuration,
         array $settings,
         $actionMethodName,

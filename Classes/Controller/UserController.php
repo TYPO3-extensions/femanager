@@ -2,6 +2,7 @@
 namespace In2code\Femanager\Controller;
 
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use In2code\Femanager\Utility\BackendUserUtility;
 use In2code\Femanager\Utility\FileUtility;
 use In2code\Femanager\Utility\LocalizationUtility;
@@ -33,11 +34,8 @@ use TYPO3\CMS\Core\Error\Http\UnauthorizedException;
  ***************************************************************/
 
 /**
- * User Controller
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class UserController
+ * @package In2code\Femanager\Controller
  */
 class UserController extends AbstractController
 {
@@ -72,12 +70,10 @@ class UserController extends AbstractController
     }
 
     /**
-     * action show
-     *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    public function showAction(User $user = null)
+    public function showAction(UserInterface $user = null)
     {
         if (!is_object($user)) {
             if (is_numeric($this->settings['show']['user'])) {
@@ -91,8 +87,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * File Uploader
-     *
      * @return void
      */
     public function fileUploadAction()
@@ -155,11 +149,11 @@ class UserController extends AbstractController
     /**
      * Simulate frontenduser login for backend adminstrators only
      *
-     * @param User $user
+     * @param UserInterface $user
      * @throws UnauthorizedException
      * @return void
      */
-    public function loginAsAction(User $user)
+    public function loginAsAction(UserInterface $user)
     {
         if (!BackendUserUtility::isAdminAuthentication()) {
             throw new UnauthorizedException(LocalizationUtility::translate('error_not_authorized'));

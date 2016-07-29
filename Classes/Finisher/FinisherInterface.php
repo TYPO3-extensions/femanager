@@ -2,6 +2,7 @@
 namespace In2code\Femanager\Finisher;
 
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 
 /**
  * Interface FinisherInterface
@@ -12,12 +13,12 @@ interface FinisherInterface
 {
 
     /**
-     * @return User
+     * @return UserInterface
      */
     public function getUser();
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      * @return AbstractFinisher
      */
     public function setUser($user);

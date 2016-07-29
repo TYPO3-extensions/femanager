@@ -3,6 +3,7 @@ namespace In2code\Femanager\Controller;
 
 use In2code\Femanager\Domain\Model\Log;
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use In2code\Femanager\Utility\FileUtility;
 use In2code\Femanager\Utility\FrontendUtility;
 use In2code\Femanager\Utility\HashUtility;
@@ -135,10 +136,10 @@ abstract class AbstractController extends ActionController
      * Prefix method to createAction()
      *        Create Confirmation from Admin is not necessary
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    public function createAllConfirmed(User $user)
+    public function createAllConfirmed(UserInterface $user)
     {
         $this->userRepository->add($user);
         $this->persistenceManager->persistAll();
@@ -150,10 +151,10 @@ abstract class AbstractController extends ActionController
     /**
      * Prefix method to createAction(): Create must be confirmed by Admin or User
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    public function createRequest(User $user)
+    public function createRequest(UserInterface $user)
     {
         $user->setDisable(true);
         $this->userRepository->add($user);
@@ -170,11 +171,11 @@ abstract class AbstractController extends ActionController
     /**
      * Send email to user for confirmation
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      * @throws UnsupportedRequestTypeException
      */
-    protected function createUserConfirmationRequest(User $user)
+    protected function createUserConfirmationRequest(UserInterface $user)
     {
         $this->sendMailService->send(
             'createUserConfirmation',
@@ -198,10 +199,10 @@ abstract class AbstractController extends ActionController
     /**
      * Send email to admin for confirmation
      *
-     * @param User $user
+     * @param UserInterface $user
      * @throws UnsupportedRequestTypeException
      */
-    protected function createAdminConfirmationRequest(User $user)
+    protected function createAdminConfirmationRequest(UserInterface $user)
     {
         $this->addFlashMessage(LocalizationUtility::translate('createRequestWaitingForAdminConfirm'));
         $this->sendMailService->send(
@@ -225,10 +226,10 @@ abstract class AbstractController extends ActionController
      * Prefix method to updateAction()
      *        Update Confirmation from Admin is not necessary
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    public function updateAllConfirmed(User $user)
+    public function updateAllConfirmed(UserInterface $user)
     {
         // send notify email to admin
         $existingUser = clone $this->userRepository->findByUid($user->getUid());
@@ -261,10 +262,10 @@ abstract class AbstractController extends ActionController
     /**
      * Prefix method to updateAction(): Update must be confirmed by Admin
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    public function updateRequest($user)
+    public function updateRequest(UserInterface $user)
     {
         $dirtyProperties = UserUtility::getDirtyPropertiesFromUser($user);
         $user = UserUtility::rollbackUserWithChangeRequest($user, $dirtyProperties);
@@ -291,14 +292,14 @@ abstract class AbstractController extends ActionController
     /**
      * Some additional actions after profile creation
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param string $action
      * @param string $redirectByActionName Action to redirect
      * @param bool $login Login after creation
      * @param string $status
      * @return void
      */
-    public function finalCreate($user, $action, $redirectByActionName, $login = true, $status = '')
+    public function finalCreate(UserInterface $user, $action, $redirectByActionName, $login = true, $status = '')
     {
         $this->loginPreflight($user, $login);
         $variables = ['user' => $user, 'settings' => $this->settings];
@@ -337,11 +338,11 @@ abstract class AbstractController extends ActionController
     /**
      * Log user in
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param $login
      * @throws IllegalObjectTypeException
      */
-    protected function loginPreflight(User $user, $login)
+    protected function loginPreflight(UserInterface $user, $login)
     {
         if ($login) {
             // persist user (otherwise login may not be possible)
@@ -396,7 +397,7 @@ abstract class AbstractController extends ActionController
     public function initializeCreateAction()
     {
         // workarround for empty usergroups
-        if ((int) $this->pluginVariables['user']['usergroup'][0] === 0) {
+        if ((int)$this->pluginVariables['user']['usergroup'][0] === 0) {
             unset($this->pluginVariables['user']['usergroup']);
         }
         $this->request->setArguments($this->pluginVariables);
@@ -417,13 +418,13 @@ abstract class AbstractController extends ActionController
     /**
      * Check if user is authenticated
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param int $uid Given fe_users uid
      * @return void
      */
-    protected function testSpoof($user, $uid)
+    protected function testSpoof(UserInterface $user, $uid)
     {
-        if ($user->getUid() !== (int) $uid && $uid > 0) {
+        if ($user->getUid() !== (int)$uid && $uid > 0) {
             LogUtility::log(Log::STATUS_PROFILEUPDATEREFUSEDSECURITY, $user);
             $this->addFlashMessage(
                 LocalizationUtility::translateByState(Log::STATUS_PROFILEUPDATEREFUSEDSECURITY),
@@ -479,7 +480,7 @@ abstract class AbstractController extends ActionController
                 ->getPropertyMappingConfiguration()
                 ->forProperty('dateOfBirth')
                 ->setTypeConverterOption(
-                    'TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter',
+                    DateTimeConverter::class,
                     DateTimeConverter::CONFIGURATION_DATE_FORMAT,
                     LocalizationUtility::translate('tx_femanager_domain_model_user.dateFormat')
                 );
@@ -491,7 +492,7 @@ abstract class AbstractController extends ActionController
 
         // check if storage pid was set
         if (
-            (int) $this->allConfig['persistence']['storagePid'] === 0
+            (int)$this->allConfig['persistence']['storagePid'] === 0
             && !GeneralUtility::_GP('eID')
             && TYPO3_MODE !== 'BE'
         ) {

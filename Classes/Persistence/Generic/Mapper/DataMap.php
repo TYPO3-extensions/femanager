@@ -1,10 +1,15 @@
 <?php
 namespace In2code\Femanager\Persistence\Generic\Mapper;
 
+use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserGroup;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMap as DataMapExtbase;
+
 /**
- * Disable tx_extbase_type='0' in where clause for femanager
+ * Class DataMap to disable tx_extbase_type='0' in where clause for femanager
+ * @package In2code\Femanager\Persistence\Generic\Mapper
  */
-class DataMap extends \TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMap
+class DataMap extends DataMapExtbase
 {
 
     /**
@@ -16,11 +21,7 @@ class DataMap extends \TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMap
     public function setRecordType($recordType)
     {
         parent::setRecordType($recordType);
-
-        if (
-            $this->getClassName() === 'In2code\\Femanager\\Domain\\Model\\User' ||
-            $this->getClassName() === 'In2code\\Femanager\\Domain\\Model\\UserGroup'
-        ) {
+        if ($this->getClassName() === User::class || $this->getClassName() === UserGroup::class) {
             $this->recordType = null;
         }
     }

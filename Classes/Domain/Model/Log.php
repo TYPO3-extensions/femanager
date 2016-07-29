@@ -28,11 +28,8 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  ***************************************************************/
 
 /**
- * Log Model
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class Log
+ * @package In2code\Femanager\Domain\Model
  */
 class Log extends AbstractEntity
 {
@@ -72,7 +69,7 @@ class Log extends AbstractEntity
     /**
      * user
      *
-     * @var User
+     * @var UserInterface
      */
     protected $user;
 
@@ -115,10 +112,10 @@ class Log extends AbstractEntity
     /**
      * Set user
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return Log
      */
-    public function setUser(User $user)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
         return $this;
@@ -127,7 +124,7 @@ class Log extends AbstractEntity
     /**
      * Get user
      *
-     * @return User
+     * @return UserInterface
      */
     public function getUser()
     {

@@ -31,7 +31,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class FileUtility
- *
  * @package In2code\Femanager\Utility
  */
 class FileUtility extends AbstractUtility

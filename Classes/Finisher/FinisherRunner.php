@@ -2,6 +2,7 @@
 namespace In2code\Femanager\Finisher;
 
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use In2code\Femanager\Domain\Service\FinisherService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -29,11 +30,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  ***************************************************************/
 
 /**
- * Get all finishers classes and call finisher service for each of them
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/lgpl.html
- *          GNU Lesser General Public License, version 3 or later
+ * Class FinisherRunner
+ * @package In2code\Femanager\Finisher
  */
 class FinisherRunner
 {
@@ -65,14 +63,14 @@ class FinisherRunner
     /**
      * Call finisher classes after submit
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param string $actionMethodName
      * @param array $settings
      * @param ContentObjectRenderer $contentObject
      * @return void
      */
     public function callFinishers(
-        User $user,
+        UserInterface $user,
         $actionMethodName,
         $settings,
         ContentObjectRenderer $contentObject
@@ -81,8 +79,8 @@ class FinisherRunner
             /** @var FinisherService $finisherService */
             $finisherService = $this->objectManager->get(FinisherService::class, $user, $settings, $contentObject);
             $finisherService->setClass($finisherSettings['class']);
-            $finisherService->setRequirePath((string) $finisherSettings['require']);
-            $finisherService->setConfiguration((array) $finisherSettings['config']);
+            $finisherService->setRequirePath((string)$finisherSettings['require']);
+            $finisherService->setConfiguration((array)$finisherSettings['config']);
             $finisherService->setActionMethodName($actionMethodName);
             $finisherService->start();
         }
@@ -96,7 +94,7 @@ class FinisherRunner
      */
     protected function getFinisherClasses($settings)
     {
-        $finishers = (array) $settings['finishers'];
+        $finishers = (array)$settings['finishers'];
         ksort($finishers);
         return $finishers;
     }

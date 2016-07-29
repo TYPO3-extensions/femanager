@@ -50,7 +50,7 @@ class BackendEditLinkViewHelper extends AbstractViewHelper
             'M',
             'moduleToken'
         ];
-        foreach ((array) GeneralUtility::_GET() as $key => $value) {
+        foreach ((array)GeneralUtility::_GET() as $key => $value) {
             if (in_array($key, $ignoreKeys)) {
                 continue;
             }

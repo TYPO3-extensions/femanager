@@ -1,7 +1,7 @@
 <?php
 namespace In2code\Femanager\Utility;
 
-use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -41,10 +41,10 @@ class HashUtility extends AbstractUtility
      * Check if given hash is correct
      *
      * @param string $hash
-     * @param User $user
+     * @param UserInterface $user
      * @return bool
      */
-    public static function validHash($hash, User $user)
+    public static function validHash($hash, UserInterface $user)
     {
         return self::createHashForUser($user) === $hash;
     }
@@ -52,10 +52,10 @@ class HashUtility extends AbstractUtility
     /**
      * Create hash for a user
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return string
      */
-    public static function createHashForUser(User $user)
+    public static function createHashForUser(UserInterface $user)
     {
         return self::hashString($user->getUsername());
     }

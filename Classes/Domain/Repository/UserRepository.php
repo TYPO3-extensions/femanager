@@ -2,6 +2,7 @@
 namespace In2code\Femanager\Domain\Repository;
 
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use In2code\Femanager\Utility\BackendUserUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -33,11 +34,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  ***************************************************************/
 
 /**
- * User Repository
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class UserRepository
+ * @package In2code\Femanager\Domain\Repository
  */
 class UserRepository extends Repository
 {
@@ -46,7 +44,7 @@ class UserRepository extends Repository
      * Overload Find by UID to also get hidden records
      *
      * @param int $uid fe_users UID
-     * @return User
+     * @return UserInterface
      */
     public function findByUid($uid)
     {
@@ -112,8 +110,8 @@ class UserRepository extends Repository
         $query->setOrderings([$field => $sorting]);
 
         // set limit
-        if ((int) $settings['list']['limit'] > 0) {
-            $query->setLimit((int) $settings['list']['limit']);
+        if ((int)$settings['list']['limit'] > 0) {
+            $query->setLimit((int)$settings['list']['limit']);
         }
 
         $users = $query->execute();
@@ -167,7 +165,7 @@ class UserRepository extends Repository
             $query->equals('deleted', 0)
         ];
         if (method_exists($user, 'getUid')) {
-            $and[] = $query->logicalNot($query->equals('uid', (int) $user->getUid()));
+            $and[] = $query->logicalNot($query->equals('uid', (int)$user->getUid()));
         }
         $constraint = $query->logicalAnd($and);
 

@@ -2,8 +2,8 @@
 namespace In2code\Femanager\Controller;
 
 use In2code\Femanager\Domain\Model\Log;
-use In2code\Femanager\Domain\Model\User;
 use In2code\Femanager\Domain\Model\UserGroup;
+use In2code\Femanager\Domain\Model\UserInterface;
 use In2code\Femanager\Utility\FrontendUtility;
 use In2code\Femanager\Utility\HashUtility;
 use In2code\Femanager\Utility\LocalizationUtility;
@@ -40,11 +40,8 @@ use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
  ***************************************************************/
 
 /**
- * Edit Controller
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class EditController
+ * @package In2code\Femanager\Controller
  */
 class EditController extends AbstractController
 {
@@ -56,10 +53,12 @@ class EditController extends AbstractController
      */
     public function editAction()
     {
-        $this->view->assignMultiple([
+        $this->view->assignMultiple(
+            [
                 'user' => $this->user,
                 'allUserGroups' => $this->allUserGroups
-            ]);
+            ]
+        );
         $this->assignForAll();
     }
 
@@ -73,7 +72,7 @@ class EditController extends AbstractController
         $user = UserUtility::getCurrentUser();
         $userValues = $this->request->getArgument('user');
         $this->testSpoof($user, $userValues['__identity']);
-        if ((int) $this->pluginVariables['user']['usergroup'][0]['__identity'] === 0) {
+        if ((int)$this->pluginVariables['user']['usergroup'][0]['__identity'] === 0) {
             unset($this->pluginVariables['user']['usergroup']);
         }
         if ($this->keepPassword()) {
@@ -84,15 +83,13 @@ class EditController extends AbstractController
     }
 
     /**
-     * action update
-     *
-     * @param User $user
+     * @param UserInterface $user
      * @validate $user In2code\Femanager\Domain\Validator\ServersideValidator
      * @validate $user In2code\Femanager\Domain\Validator\PasswordValidator
      * @validate $user In2code\Femanager\Domain\Validator\CaptchaValidator
      * @return void
      */
-    public function updateAction(User $user)
+    public function updateAction(UserInterface $user)
     {
         $this->redirectIfDirtyObject($user);
         $user = FrontendUtility::forceValues($user, $this->config['edit.']['forceValues.']['beforeAnyConfirmation.']);
@@ -110,12 +107,12 @@ class EditController extends AbstractController
     /**
      * Update if hash is ok
      *
-     * @param User $user User object
+     * @param UserInterface $user User object
      * @param string $hash
      * @param string $status could be "confirm", "refuse", "silentRefuse"
      * @return void
      */
-    public function confirmUpdateRequestAction(User $user, $hash, $status = 'confirm')
+    public function confirmUpdateRequestAction(UserInterface $user, $hash, $status = 'confirm')
     {
         $this->view->assign('user', $user);
         if (!HashUtility::validHash($hash, $user) || !$user->getTxFemanagerChangerequest()) {
@@ -143,13 +140,13 @@ class EditController extends AbstractController
     /**
      * Status update confirmation
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    protected function statusConfirm(User $user)
+    protected function statusConfirm(UserInterface $user)
     {
         $values = GeneralUtility::xml2array($user->getTxFemanagerChangerequest());
-        foreach ((array) $values as $field => $value) {
+        foreach ((array)$values as $field => $value) {
             if ($field !== 'usergroup' && method_exists($user, 'set' . ucfirst($field))) {
                 $user->{'set' . ucfirst($field)}($value['new']);
             } else {
@@ -170,10 +167,10 @@ class EditController extends AbstractController
     /**
      * Status update refused
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    protected function statusRefuse(User $user)
+    protected function statusRefuse(UserInterface $user)
     {
         $this->sendMailService->send(
             'updateRequestRefused',
@@ -193,10 +190,10 @@ class EditController extends AbstractController
     /**
      * action delete
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    public function deleteAction(User $user)
+    public function deleteAction(UserInterface $user)
     {
         LogUtility::log(Log::STATUS_PROFILEDELETE, $user);
         $this->addFlashMessage(LocalizationUtility::translateByState(Log::STATUS_PROFILEDELETE));
@@ -224,11 +221,11 @@ class EditController extends AbstractController
     /**
      * Check: If there are no changes, simple redirect back
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      * @throws UnsupportedRequestTypeException
      */
-    protected function redirectIfDirtyObject(User $user)
+    protected function redirectIfDirtyObject(UserInterface $user)
     {
         if (!ObjectUtility::isDirtyObject($user)) {
             $this->addFlashMessage(LocalizationUtility::translate('noChanges'), '', FlashMessage::NOTICE);
@@ -237,11 +234,11 @@ class EditController extends AbstractController
     }
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      *
      * @return void
      */
-    protected function emailForUsername(User $user)
+    protected function emailForUsername(UserInterface $user)
     {
         if ($this->settings['edit']['fillEmailWithUsername'] === '1') {
             $user->setEmail($user->getUsername());

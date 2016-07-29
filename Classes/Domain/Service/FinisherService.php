@@ -2,6 +2,7 @@
 namespace In2code\Femanager\Domain\Service;
 
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use In2code\Femanager\Finisher\AbstractFinisher;
 use In2code\Femanager\Utility\StringUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -30,11 +31,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  ***************************************************************/
 
 /**
- * Load individual single finisher class
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/lgpl.html
- *          GNU Lesser General Public License, version 3 or later
+ * Class FinisherService
+ * @package In2code\Femanager\Domain\Service
  */
 class FinisherService
 {
@@ -153,7 +151,7 @@ class FinisherService
     }
 
     /**
-     * @return User
+     * @return UserInterface
      */
     public function getUser()
     {
@@ -161,10 +159,10 @@ class FinisherService
     }
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      * @return FinisherService
      */
-    public function setUser($user)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
         return $this;
@@ -262,17 +260,17 @@ class FinisherService
      */
     protected function callInitializeFinisherMethod(AbstractFinisher $finisher, $finisherMethod)
     {
-        if (method_exists($finisher, 'initialize' . ucFirst($finisherMethod))) {
-            $finisher->{'initialize' . ucFirst($finisherMethod)}();
+        if (method_exists($finisher, 'initialize' . ucfirst($finisherMethod))) {
+            $finisher->{'initialize' . ucfirst($finisherMethod)}();
         }
     }
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      * @param array $settings
      * @param ContentObjectRenderer $contentObject
      */
-    public function __construct(User $user, array $settings, ContentObjectRenderer $contentObject)
+    public function __construct(UserInterface $user, array $settings, ContentObjectRenderer $contentObject)
     {
         $this->setUser($user);
         $this->setSettings($settings);

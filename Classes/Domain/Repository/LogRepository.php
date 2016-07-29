@@ -28,11 +28,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  ***************************************************************/
 
 /**
- * Log Repository
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class LogRepository
+ * @package In2code\Femanager\Domain\Repository
  */
 class LogRepository extends Repository
 {

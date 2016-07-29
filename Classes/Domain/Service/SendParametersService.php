@@ -2,6 +2,7 @@
 namespace In2code\Femanager\Domain\Service;
 
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -30,11 +31,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  ***************************************************************/
 
 /**
- * Send Parameters Service Class
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/lgpl.html
- *          GNU Lesser General Public License, version 3 or later
+ * Class SendParametersService
+ * @package In2code\Femanager\Domain\Service
  */
 class SendParametersService
 {
@@ -71,10 +69,10 @@ class SendParametersService
     /**
      * SendPost - Send values via curl to target
      *
-     * @param User $user User properties
+     * @param UserInterface $user User properties
      * @return void
      */
-    public function send(User $user)
+    public function send(UserInterface $user)
     {
         $this->initialize($user);
         $this->contentObject->start($this->properties);
@@ -136,17 +134,19 @@ class SendParametersService
      */
     protected function isTurnedOn()
     {
-        return $this->contentObject->cObjGetSingle($this->configuration['_enable'], $this->configuration['_enable.'])
-        === '1';
+        return $this->contentObject->cObjGetSingle(
+            $this->configuration['_enable'],
+            $this->configuration['_enable.']
+        ) === '1';
     }
 
     /**
      * Initialize
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    protected function initialize(User $user)
+    protected function initialize(UserInterface $user)
     {
         $this->properties = $user->_getCleanProperties();
         $this->contentObject = $this->configurationManager->getContentObject();

@@ -38,6 +38,6 @@ class IsRequiredFieldViewHelper extends AbstractValidationViewHelper
         $configuration = $this->configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
         );
-        return (array) $configuration['settings'];
+        return (array)$configuration['settings'];
     }
 }

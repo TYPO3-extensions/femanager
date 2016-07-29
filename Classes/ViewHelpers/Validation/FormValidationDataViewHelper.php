@@ -60,7 +60,7 @@ class FormValidationDataViewHelper extends AbstractValidationViewHelper
     protected function getValidationString($settings, $fieldName)
     {
         $string = '';
-        $validationSettings = (array) $settings[$this->getControllerName()][$this->getValidationName()][$fieldName];
+        $validationSettings = (array)$settings[$this->getControllerName()][$this->getValidationName()][$fieldName];
         foreach ($validationSettings as $validation => $configuration) {
             if (!empty($string)) {
                 $string .= ',';
@@ -96,9 +96,6 @@ class FormValidationDataViewHelper extends AbstractValidationViewHelper
      */
     protected function isSimpleValidation($validation)
     {
-        if (in_array($validation, $this->extendedValidations)) {
-            return false;
-        }
-        return true;
+        return !in_array($validation, $this->extendedValidations);
     }
 }

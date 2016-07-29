@@ -28,11 +28,8 @@ use TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup;
  ***************************************************************/
 
 /**
- * UserGroup Model
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class UserGroup
+ * @package In2code\Femanager\Domain\Model
  */
 class UserGroup extends FrontendUserGroup
 {

@@ -3,6 +3,7 @@ namespace In2code\Femanager\Controller;
 
 use In2code\Femanager\Domain\Model\Log;
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use In2code\Femanager\Utility\FrontendUtility;
 use In2code\Femanager\Utility\HashUtility;
 use In2code\Femanager\Utility\LocalizationUtility;
@@ -38,11 +39,8 @@ use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
  ***************************************************************/
 
 /**
- * New Controller
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class NewController
+ * @package In2code\Femanager\Controller
  */
 class NewController extends AbstractController
 {
@@ -50,10 +48,10 @@ class NewController extends AbstractController
     /**
      * Render registration form
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    public function newAction(User $user = null)
+    public function newAction(UserInterface $user = null)
     {
         $this->view->assignMultiple(
             [
@@ -67,13 +65,13 @@ class NewController extends AbstractController
     /**
      * action create
      *
-     * @param User $user
+     * @param UserInterface $user
      * @validate $user In2code\Femanager\Domain\Validator\ServersideValidator
      * @validate $user In2code\Femanager\Domain\Validator\PasswordValidator
      * @validate $user In2code\Femanager\Domain\Validator\CaptchaValidator
      * @return void
      */
-    public function createAction(User $user)
+    public function createAction(UserInterface $user)
     {
         $user = UserUtility::overrideUserGroup($user, $this->settings);
         $user = FrontendUtility::forceValues($user, $this->config['new.']['forceValues.']['beforeAnyConfirmation.']);
@@ -145,14 +143,14 @@ class NewController extends AbstractController
     /**
      * Status action: User confirmation
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param string $hash
      * @param string $status
      * @return bool allow further functions
      * @throws UnsupportedRequestTypeException
      * @throws IllegalObjectTypeException
      */
-    protected function statusUserConfirmation(User $user, $hash, $status)
+    protected function statusUserConfirmation(UserInterface $user, $hash, $status)
     {
         if (HashUtility::validHash($hash, $user)) {
             if ($user->getTxFemanagerConfirmedbyuser()) {
@@ -200,12 +198,12 @@ class NewController extends AbstractController
     /**
      * Status action: User confirmation refused
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param string $hash
      * @return bool allow further functions
      * @throws IllegalObjectTypeException
      */
-    protected function statusUserConfirmationRefused(User $user, $hash)
+    protected function statusUserConfirmationRefused(UserInterface $user, $hash)
     {
         if (HashUtility::validHash($hash, $user)) {
             LogUtility::log(Log::STATUS_REGISTRATIONREFUSEDUSER, $user);
@@ -221,12 +219,12 @@ class NewController extends AbstractController
     /**
      * Status action: Admin confirmation
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param string $hash
      * @param string $status
      * @return bool allow further functions
      */
-    protected function statusAdminConfirmation(User $user, $hash, $status)
+    protected function statusAdminConfirmation(UserInterface $user, $hash, $status)
     {
         if (HashUtility::validHash($hash, $user)) {
             $user = FrontendUtility::forceValues($user, $this->config['new.']['forceValues.']['onAdminConfirmation.']);
@@ -246,13 +244,13 @@ class NewController extends AbstractController
     /**
      * Status action: Admin refused profile creation (normal or silent)
      *
-     * @param User $user
-     * @param $hash
-     * @param $status
+     * @param UserInterface $user
+     * @param string $hash
+     * @param string $status
      * @return bool allow further functions
      * @throws IllegalObjectTypeException
      */
-    protected function statusAdminConfirmationRefused(User $user, $hash, $status)
+    protected function statusAdminConfirmationRefused(UserInterface $user, $hash, $status)
     {
         if (HashUtility::validHash($hash, $user)) {
             LogUtility::log(Log::STATUS_REGISTRATIONREFUSEDADMIN, $user);
@@ -296,10 +294,10 @@ class NewController extends AbstractController
     }
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      * @return bool
      */
-    protected function isAdminConfirmationMissing(User $user)
+    protected function isAdminConfirmationMissing(UserInterface $user)
     {
         return !empty($this->settings['new']['confirmByAdmin']) && !$user->getTxFemanagerConfirmedbyadmin();
     }

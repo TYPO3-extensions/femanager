@@ -3,6 +3,7 @@ namespace In2code\Femanager\Utility;
 
 use In2code\Femanager\Domain\Model\User;
 use In2code\Femanager\Domain\Model\UserGroup;
+use In2code\Femanager\Domain\Model\UserInterface;
 use In2code\Femanager\Domain\Repository\UserRepository;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -38,7 +39,6 @@ use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
 
 /**
  * Class UserUtility
- *
  * @package In2code\Femanager\Utility
  */
 class UserUtility extends AbstractUtility
@@ -47,14 +47,14 @@ class UserUtility extends AbstractUtility
     /**
      * Return current logged in fe_user
      *
-     * @return User|null
+     * @return UserInterface|null
      */
     public static function getCurrentUser()
     {
         if (self::getPropertyFromUser() !== null) {
             /** @var UserRepository $userRepository */
             $userRepository = GeneralUtility::makeInstance(ObjectManager::class)->get(UserRepository::class);
-            return $userRepository->findByUid((int) self::getPropertyFromUser());
+            return $userRepository->findByUid((int)self::getPropertyFromUser());
         }
         return null;
     }
@@ -99,10 +99,10 @@ class UserUtility extends AbstractUtility
     /**
      * Autogenerate username and password if it's empty
      *
-     * @param User $user
-     * @return User $user
+     * @param UserInterface $user
+     * @return UserInterface $user
      */
-    public static function fallbackUsernameAndPassword(User $user)
+    public static function fallbackUsernameAndPassword(UserInterface $user)
     {
         $settings = self::getConfigurationManager()->getConfiguration(
             ConfigurationManager::CONFIGURATION_TYPE_SETTINGS
@@ -133,11 +133,11 @@ class UserUtility extends AbstractUtility
     }
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      * @param array $settings
      * @return User
      */
-    public static function takeEmailAsUsername(User $user, array $settings)
+    public static function takeEmailAsUsername(UserInterface $user, array $settings)
     {
         if ($settings['new']['fillEmailWithUsername'] === '1') {
             $user->setEmail($user->getUsername());
@@ -148,12 +148,12 @@ class UserUtility extends AbstractUtility
     /**
      * Overwrite usergroups from user by flexform settings
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param array $settings
      * @param string $controllerName
      * @return User $object
      */
-    public static function overrideUserGroup(User $user, $settings, $controllerName = 'new')
+    public static function overrideUserGroup(UserInterface $user, $settings, $controllerName = 'new')
     {
         if (!empty($settings[$controllerName]['overrideUserGroup'])) {
             $user->removeAllUsergroups();
@@ -171,11 +171,11 @@ class UserUtility extends AbstractUtility
     /**
      * Convert password to md5 or sha1 hash
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param string $method
      * @return void
      */
-    public static function convertPassword(User $user, $method)
+    public static function convertPassword(UserInterface $user, $method)
     {
         if (array_key_exists('password', UserUtility::getDirtyPropertiesFromUser($user))) {
             self::hashPassword($user, $method);
@@ -185,11 +185,11 @@ class UserUtility extends AbstractUtility
     /**
      * Hash a password from $user->getPassword()
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param string $method "md5", "sha1" or "none"
      * @return void
      */
-    public static function hashPassword(User &$user, $method)
+    public static function hashPassword(UserInterface &$user, $method)
     {
         switch ($method) {
             case 'none':
@@ -216,12 +216,12 @@ class UserUtility extends AbstractUtility
     /**
      * Get changed properties (compare two objects with same getter methods)
      *
-     * @param User $changedObject
+     * @param UserInterface $changedObject
      * @return array
      *            [firstName][old] = Alex
      *            [firstName][new] = Alexander
      */
-    public static function getDirtyPropertiesFromUser(User $changedObject)
+    public static function getDirtyPropertiesFromUser(UserInterface $changedObject)
     {
         $dirtyProperties = [];
         $ignoreProperties = [
@@ -267,11 +267,11 @@ class UserUtility extends AbstractUtility
     /**
      * overwrite user with old values and xml with new values
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param array $dirtyProperties
      * @return User $user
      */
-    public static function rollbackUserWithChangeRequest($user, $dirtyProperties)
+    public static function rollbackUserWithChangeRequest(UserInterface $user, $dirtyProperties)
     {
         $existingProperties = $user->_getCleanProperties();
 
@@ -291,25 +291,25 @@ class UserUtility extends AbstractUtility
     /**
      * Remove FE Session to a given user
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    public static function removeFrontendSessionToUser(User $user)
+    public static function removeFrontendSessionToUser(UserInterface $user)
     {
-        self::getDatabaseConnection()->exec_DELETEquery('fe_sessions', 'ses_userid = ' . (int) $user->getUid());
+        self::getDatabaseConnection()->exec_DELETEquery('fe_sessions', 'ses_userid = ' . (int)$user->getUid());
     }
 
     /**
      * Check if FE Session exists
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return bool
      */
-    public static function checkFrontendSessionToUser(User $user)
+    public static function checkFrontendSessionToUser(UserInterface $user)
     {
         $select = 'ses_id';
         $from = 'fe_sessions';
-        $where = 'ses_userid = ' . (int) $user->getUid();
+        $where = 'ses_userid = ' . (int)$user->getUid();
         $res = self::getDatabaseConnection()->exec_SELECTquery($select, $from, $where);
         $row = self::getDatabaseConnection()->sql_fetch_assoc($res);
         return !empty($row['ses_id']);
@@ -318,11 +318,11 @@ class UserUtility extends AbstractUtility
     /**
      * Login FE-User
      *
-     * @param User $user
+     * @param UserInterface $user
      * @param null|string $storagePids
      * @return void
      */
-    public static function login(User $user, $storagePids = null)
+    public static function login(UserInterface $user, $storagePids = null)
     {
         $tsfe = self::getTypoScriptFrontendController();
         $tsfe->fe_user->checkPid = false;

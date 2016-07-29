@@ -30,11 +30,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  ***************************************************************/
 
 /**
- * UserGroup Repository
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class UserGroupRepository
+ * @package In2code\Femanager\Domain\Repository
  */
 class UserGroupRepository extends Repository
 {

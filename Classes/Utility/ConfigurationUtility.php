@@ -26,11 +26,8 @@ namespace In2code\Femanager\Utility;
  ***************************************************************/
 
 /**
- * ConfigurationUtility class
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/lgpl.html
- *          GNU Lesser General Public License, version 3 or later
+ * Class ConfigurationUtility
+ * @package In2code\Femanager\Utility
  */
 class ConfigurationUtility extends AbstractUtility
 {

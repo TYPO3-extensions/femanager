@@ -3,6 +3,7 @@ namespace In2code\Femanager\Controller;
 
 use In2code\Femanager\Domain\Model\Log;
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use In2code\Femanager\Utility\FrontendUtility;
 use In2code\Femanager\Utility\HashUtility;
 use In2code\Femanager\Utility\LocalizationUtility;
@@ -37,11 +38,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  ***************************************************************/
 
 /**
- * Invitation Controller
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class InvitationController
+ * @package In2code\Femanager\Controller
  */
 class InvitationController extends AbstractController
 {
@@ -61,13 +59,13 @@ class InvitationController extends AbstractController
     /**
      * action create
      *
-     * @param User $user
+     * @param UserInterface $user
      * @validate $user In2code\Femanager\Domain\Validator\ServersideValidator
      * @validate $user In2code\Femanager\Domain\Validator\PasswordValidator
      * @validate $user In2code\Femanager\Domain\Validator\CaptchaValidator
      * @return void
      */
-    public function createAction(User $user)
+    public function createAction(UserInterface $user)
     {
         $this->allowedUserForInvitationNewAndCreate();
         $user->setDisable(true);
@@ -88,10 +86,10 @@ class InvitationController extends AbstractController
      * Prefix method to createAction()
      *        Create Confirmation from Admin is not necessary
      *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    public function createAllConfirmed(User $user)
+    public function createAllConfirmed(UserInterface $user)
     {
         $this->userRepository->add($user);
         $this->persistenceManager->persistAll();
@@ -135,8 +133,6 @@ class InvitationController extends AbstractController
     }
 
     /**
-     * action edit
-     *
      * @param int $user User UID
      * @param string $hash
      * @return void
@@ -168,14 +164,12 @@ class InvitationController extends AbstractController
     }
 
     /**
-     * action update
-     *
-     * @param \In2code\Femanager\Domain\Model\User $user
+     * @param UserInterface $user
      * @validate $user In2code\Femanager\Domain\Validator\ServersideValidator
      * @validate $user In2code\Femanager\Domain\Validator\PasswordValidator
      * @return void
      */
-    public function updateAction($user)
+    public function updateAction(UserInterface $user)
     {
         $this->addFlashMessage(LocalizationUtility::translate('createAndInvitedFinished'));
         LogUtility::log(Log::STATUS_INVITATIONPROFILEENABLED, $user);

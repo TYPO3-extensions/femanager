@@ -2,7 +2,7 @@
 namespace In2code\Femanager\Utility;
 
 use In2code\Femanager\Domain\Model\Log;
-use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use In2code\Femanager\Domain\Repository\LogRepository;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 
@@ -41,11 +41,11 @@ class LogUtility extends AbstractUtility
 
     /**
      * @param int $state State to log
-     * @param User $user Related User
+     * @param UserInterface $user Related User
      * @param array $additionalProperties for individual logging
      * @return void
      */
-    public static function log($state, User $user, array $additionalProperties = [])
+    public static function log($state, UserInterface $user, array $additionalProperties = [])
     {
         if (!ConfigurationUtility::isDisableLogActive()) {
             $log = self::getLog();

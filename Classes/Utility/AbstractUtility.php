@@ -74,7 +74,7 @@ abstract class AbstractUtility
      */
     protected static function getFilesArray()
     {
-        return (array) $_FILES;
+        return (array)$_FILES;
     }
 
     /**

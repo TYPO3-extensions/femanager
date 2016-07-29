@@ -2,54 +2,48 @@
 namespace In2code\Femanager\Domain\Validator;
 
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator as AbstractValidatorExtbase;
 
 /**
- * Class GeneralValidator
+ * Class AbstractValidator
+ * @package In2code\Femanager\Domain\Validator
  */
 abstract class AbstractValidator extends AbstractValidatorExtbase
 {
 
     /**
-     * objectManager
-     *
      * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      * @inject
      */
     protected $objectManager;
 
     /**
-     * userRepository
-     *
      * @var \In2code\Femanager\Domain\Repository\UserRepository
      * @inject
      */
     protected $userRepository;
 
     /**
-     * configurationManager
-     *
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager
      * @inject
      */
     public $configurationManager;
 
     /**
-     * Former known as piVars
-     *
      * @var array
      */
     public $pluginVariables;
 
     /**
-     * Validationsettings
+     * @var array
      */
     public $validationSettings = [];
 
     /**
-     * Is Valid
+     * @var bool
      */
     protected $isValid = true;
 
@@ -57,7 +51,7 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
      * Validation for required
      *
      * @param string $value
-     * @return \bool
+     * @return bool
      */
     protected function validateRequired($value)
     {
@@ -73,7 +67,7 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
      * Validation for email
      *
      * @param string $value
-     * @return \bool
+     * @return bool
      */
     protected function validateEmail($value)
     {
@@ -85,7 +79,7 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
      *
      * @param string $value
      * @param string $validationSetting
-     * @return \bool
+     * @return bool
      */
     protected function validateMin($value, $validationSetting)
     {
@@ -100,7 +94,7 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
      *
      * @param string $value
      * @param string $validationSetting
-     * @return \bool
+     * @return bool
      */
     protected function validateMax($value, $validationSetting)
     {
@@ -114,7 +108,7 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
      * Validation for Numbers only
      *
      * @param string $value
-     * @return \bool
+     * @return bool
      */
     protected function validateInt($value)
     {
@@ -125,7 +119,7 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
      * Validation for Letters only
      *
      * @param string $value
-     * @return \bool
+     * @return bool
      */
     protected function validateLetters($value)
     {
@@ -140,10 +134,10 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
      *
      * @param string $value
      * @param string $field
-     * @param User $user Existing User
-     * @return \bool
+     * @param UserInterface $user Existing User
+     * @return bool
      */
-    protected function validateUniquePage($value, $field, User $user = null)
+    protected function validateUniquePage($value, $field, UserInterface $user = null)
     {
         $foundUser = $this->userRepository->checkUniquePage($field, $value, $user);
         return !is_object($foundUser);
@@ -154,10 +148,10 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
      *
      * @param string $value
      * @param string $field Fieldname like "username" or "email"
-     * @param User $user Existing User
-     * @return \bool
+     * @param UserInterface $user Existing User
+     * @return bool
      */
-    protected function validateUniqueDb($value, $field, User $user = null)
+    protected function validateUniqueDb($value, $field, UserInterface $user = null)
     {
         $foundUser = $this->userRepository->checkUniqueDb($field, $value, $user);
         return !is_object($foundUser);
@@ -168,7 +162,7 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
      *
      * @param string $value
      * @param string $validationSettingList
-     * @return \bool
+     * @return bool
      */
     protected function validateMustInclude($value, $validationSettingList)
     {
@@ -218,7 +212,7 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
      *
      * @param string $value
      * @param string $validationSettingList
-     * @return \bool
+     * @return bool
      */
     protected function validateMustNotInclude($value, $validationSettingList)
     {
@@ -340,7 +334,7 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
      *
      * @param string $value
      * @param string $validationSetting
-     * @return \bool
+     * @return bool
      */
     protected function validateDate($value, $validationSetting)
     {

@@ -30,11 +30,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  ***************************************************************/
 
 /**
- * SendMail Function
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class SendMailService
+ * @package In2code\Femanager\Domain\Service
  */
 class SendMailService
 {

@@ -28,11 +28,8 @@ use In2code\Femanager\Utility\StringUtility;
  ***************************************************************/
 
 /**
- * Save values to any table
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/lgpl.html
- *          GNU Lesser General Public License, version 3 or later
+ * Class SaveToAnyTableFinisher
+ * @package In2code\Femanager\Finisher
  */
 class SaveToAnyTableFinisher extends AbstractFinisher implements FinisherInterface
 {
@@ -95,7 +92,7 @@ class SaveToAnyTableFinisher extends AbstractFinisher implements FinisherInterfa
     {
         if (!empty($this->configuration)) {
             $this->addArrayToDataArray($this->user->_getProperties());
-            foreach ((array) array_keys($this->configuration) as $table) {
+            foreach ((array)array_keys($this->configuration) as $table) {
                 $this->storeForTable($table);
             }
         }

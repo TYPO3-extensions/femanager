@@ -26,11 +26,8 @@ namespace In2code\Femanager\Domain\Service;
  ***************************************************************/
 
 /**
- * Store values in any table
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class StoreInDatabaseService
+ * @package In2code\Femanager\Domain\Service
  */
 class StoreInDatabaseService
 {
@@ -100,8 +97,8 @@ class StoreInDatabaseService
     /**
      * Add property/value pair to array
      *
-     * @param $propertyName
-     * @param $value
+     * @param string $propertyName
+     * @param string $value
      * @return void
      */
     public function addProperty($propertyName, $value)
@@ -113,7 +110,7 @@ class StoreInDatabaseService
     /**
      * Remove property/value pair form array by its key
      *
-     * @param $propertyName
+     * @param string $propertyName
      * @return void
      */
     public function removeProperty($propertyName)
@@ -123,6 +120,7 @@ class StoreInDatabaseService
 
     /**
      * Initialize
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function __construct()
     {

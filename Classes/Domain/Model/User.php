@@ -30,13 +30,10 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  ***************************************************************/
 
 /**
- * User Model
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class User
+ * @package In2code\Femanager\Domain\Model
  */
-class User extends FrontendUser
+class User extends FrontendUser implements UserInterface
 {
 
     /**

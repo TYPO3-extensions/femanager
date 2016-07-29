@@ -28,11 +28,8 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
  ***************************************************************/
 
 /**
- * SendParametersFinisher to send params via CURL
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/lgpl.html
- *          GNU Lesser General Public License, version 3 or later
+ * Class SendParametersFinisher
+ * @package In2code\Femanager\Finisher
  */
 class SendParametersFinisher extends AbstractFinisher implements FinisherInterface
 {
@@ -145,7 +142,9 @@ class SendParametersFinisher extends AbstractFinisher implements FinisherInterfa
      */
     protected function isEnabled()
     {
-        return $this->contentObject->cObjGetSingle($this->configuration['_enable'], $this->configuration['_enable.'])
-            === '1';
+        return $this->contentObject->cObjGetSingle(
+            $this->configuration['_enable'],
+            $this->configuration['_enable.']
+        ) === '1';
     }
 }

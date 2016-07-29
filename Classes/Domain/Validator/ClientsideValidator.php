@@ -2,13 +2,13 @@
 namespace In2code\Femanager\Domain\Validator;
 
 use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use In2code\Femanager\Utility\LocalizationUtility;
 use In2code\Femanager\Utility\StringUtility;
 
 /**
  * Class ClientsideValidator
- *
  * @package In2code\Femanager\Domain\Validator
  */
 class ClientsideValidator extends AbstractValidator
@@ -308,17 +308,17 @@ class ClientsideValidator extends AbstractValidator
     }
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      * @return ClientsideValidator
      */
-    public function setUser(User $user = null)
+    public function setUser(UserInterface $user = null)
     {
         $this->user = $user;
         return $this;
     }
 
     /**
-     * @return User
+     * @return UserInterface
      */
     public function getUser()
     {

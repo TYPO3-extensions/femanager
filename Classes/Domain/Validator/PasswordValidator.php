@@ -7,42 +7,33 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator as AbstractValidato
 
 /**
  * Class PasswordValidator
+ * @package In2code\Femanager\Domain\Validator
  */
 class PasswordValidator extends AbstractValidatorExtbase
 {
 
     /**
-     * configurationManager
-     *
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager
      * @inject
      */
     public $configurationManager;
 
     /**
-     * Content Object
-     *
      * @var object
      */
     public $cObj;
 
     /**
-     * Plugin Variables
-     *
      * @var array
      */
     public $piVars = [];
 
     /**
-     * TypoScript Configuration
-     *
      * @var array
      */
     public $configuration = [];
 
     /**
-     * Action Name
-     *
      * @var string
      */
     protected $actionName;

@@ -1,7 +1,7 @@
 <?php
 namespace In2code\Femanager\Controller;
 
-use In2code\Femanager\Domain\Model\User;
+use In2code\Femanager\Domain\Model\UserInterface;
 use In2code\Femanager\Utility\UserUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 
@@ -30,18 +30,13 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  ***************************************************************/
 
 /**
- * User Backend Controller
- *
- * @package femanager
- * @license http://www.gnu.org/licenses/gpl.html
- *          GNU General Public License, version 3 or later
+ * Class UserBackendController
+ * @package In2code\Femanager\Controller
  */
 class UserBackendController extends AbstractController
 {
 
     /**
-     * action list
-     *
      * @param array $filter Filter Array
      * @return void
      */
@@ -56,12 +51,10 @@ class UserBackendController extends AbstractController
     }
 
     /**
-     * action user logout
-     *
-     * @param User $user
+     * @param UserInterface $user
      * @return void
      */
-    public function userLogoutAction(User $user)
+    public function userLogoutAction(UserInterface $user)
     {
         UserUtility::removeFrontendSessionToUser($user);
         $this->addFlashMessage('User successfully logged out');
